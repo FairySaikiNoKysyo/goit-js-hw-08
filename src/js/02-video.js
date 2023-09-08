@@ -1,4 +1,4 @@
-const throttle = require('lodash.throttle');
+const throttle =  require('lodash.throttle');
 const elements ={
     iFrame : document.querySelector('iframe')
 }

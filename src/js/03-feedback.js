@@ -3,14 +3,14 @@ const elements = {
     // input: document.querySelector('input'),
     // textArea: document.querySelector('textarea'),
 }
-
+const throttle =  require('lodash.throttle');
 const KEY_LS = "feedback-form-state"
 let data = JSON.parse(localStorage.getItem(KEY_LS)) ?? {};
 const {email,message} = elements.form.elements;
 email.value = data.email ?? '';
 message.value = data.message ?? '';
 
-elements.form.addEventListener("input",handleLog);
+elements.form.addEventListener("input",throttle(handleLog,500));
 elements.form.addEventListener("submit",handlerSubmit)
 function handleLog(evt){
     data[evt.target.name]= evt.target.value

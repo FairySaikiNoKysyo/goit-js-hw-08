@@ -1,9 +1,10 @@
+import throttle from 'lodash.throttle';
 const elements = {
     form: document.querySelector(".js-form"),
     // input: document.querySelector('input'),
     // textArea: document.querySelector('textarea'),
 }
-const throttle =  require('lodash.throttle');
+
 const KEY_LS = "feedback-form-state"
 let data = JSON.parse(localStorage.getItem(KEY_LS)) ?? {};
 const {email,message} = elements.form.elements;

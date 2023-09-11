@@ -20,7 +20,8 @@ localStorage.setItem(KEY_LS, JSON.stringify(data))
 }
 function handlerSubmit(evt){
     evt.preventDefault();
-    data = {};
+   
+console.log(JSON.parse(localStorage.getItem(KEY_LS) ?? {}));
     elements.form.reset();
     localStorage.removeItem(KEY_LS);
     

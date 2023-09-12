@@ -1,28 +1,31 @@
 import throttle from 'lodash.throttle';
-const elements = {
-    form: document.querySelector(".js-form"),
-    // input: document.querySelector('input'),
-    // textArea: document.querySelector('textarea'),
+
+const form = document.querySelector('.js-form');
+const email = document.querySelector('input[name="email"]');
+const message = document.querySelector('textarea[name="message"]');
+
+const KEY_LS = 'feedback-form-state';
+
+form.addEventListener('input', throttle(handlerInput, 500));
+form.addEventListener('submit', handlerSubmit);
+
+function handlerInput(evt) {
+  const value = { email: email.value, message: message.value };
+  localStorage.setItem(KEY_LS, JSON.stringify(value));
 }
 
-const KEY_LS = "feedback-form-state"
-let data = JSON.parse(localStorage.getItem(KEY_LS)) ?? {};
-const {email,message} = elements.form.elements;
-email.value = data.email ?? '';
-message.value = data.message ?? '';
-
-elements.form.addEventListener("input",throttle(handleLog,500));
-elements.form.addEventListener("submit",handlerSubmit)
-function handleLog(evt){
-    data[evt.target.name]= evt.target.value
-
-localStorage.setItem(KEY_LS, JSON.stringify(data))
+function handlerSubmit(evt) {
+  evt.preventDefault();
+  if (email.value === '' || message.value === '') {
+    return alert('Заповніть усі поля, будь-ласка!');
+  }
+  console.log(JSON.parse(localStorage.getItem(KEY_LS) ?? {}));
+  form.reset();
+  localStorage.removeItem(KEY_LS);
 }
-function handlerSubmit(evt){
-    evt.preventDefault();
-   
-console.log(JSON.parse(localStorage.getItem(KEY_LS) ?? {}));
-    elements.form.reset();
-    localStorage.removeItem(KEY_LS);
-    
+
+if (JSON.parse(localStorage.getItem(KEY_LS)) !== '') {
+  const savedValue = JSON.parse(localStorage.getItem(KEY_LS)) ?? {};
+  email.value = savedValue.email ?? '';
+  message.value = savedValue.message ?? '';
 }
